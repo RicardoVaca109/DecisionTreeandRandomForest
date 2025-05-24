@@ -1,0 +1,70 @@
+El data set a usarse es de Detección de billetes falsos
+Este dataset proviene de un estudio realizado con imágenes de billetes escaneados. 
+Se procesaron mediante análisis de componentes independientes (ICA) sobre imágenes de billetes genuinos
+y falsificados.
+| Columna  | Significado                                                             |
+| ---------| ----------------------------------------------------------------------- |
+| Variance | Varianza de la imagen del billete.                                      |
+| Skewness | Asimetría de la imagen (mide la inclinación de la distribución).        |
+| Curtosis | Curtosis de la imagen (indica si hay picos o colas en la distribución). |
+| Entropy  | Entropía de la imagen (medida de desorden o aleatoriedad).              |
+| Class    | Etiqueta objetivo: 0 = Falso, 1 = Genuino (verdadero)                   |
+
+Se usaron 3 variables tanto para decision tree como para random forest
+Variance
+Skewness
+Class
+
+Árbol de decisión:
+Predicción para varianza 0.062525 y oblicuidad 2.9301: [1]
+Significa que un billete con esos datos se lo considerara como billete verdadero.
+
+Matriz de Confusión
+[180  15]  TN   FP
+[ 13 135]  FN   TP
+TN (Verdaderos Negativos) = 180 Casos que eran realmente negativos (clase "0") y el modelo los predijo correctamente como negativos.
+FP (Falsos Positivos) = 15 Casos que eran realmente negativos, pero el modelo los predijo incorrectamente como positivos (falsa alarma).
+FN (Falsos Negativos) = 13 Casos que eran realmente positivos, pero el modelo los predijo incorrectamente como negativos (se le escapó un positivo).
+TP (Verdaderos Positivos) = 135 Casos que eran realmente positivos (clase "1") y el modelo los predijo correctamente como positivos.
+
+Accuracy: 
+a+d / a+b+c+d
+TP + TN / TP + TN + FP + FN
+
+180+135/180+135+13+15 -> 320/348 ≈ 0.92
+*Precision buena para un modelo
+
+Epsilon:
+b+c / a+b+c+d
+FP + FN / TP + TN + FP + FN
+13+15/180+135+13+15 ≈ 0.08
+*El algoritmo comete el error en aproximadamente 0.08% de los casos con el Dataset
+
+Random Forest:
+Predicción para  varianza = 5.3063 y oblicuidad = 5.2684: [0]
+Significa que un billete con esos datos se lo considerara como billete Falso.
+
+Matriz de Confusión
+[184  11]  TN   FP
+[  7 141]  FN   TP
+TN (Verdaderos Negativos) = 184 Casos que eran realmente negativos (clase "0") y el modelo los predijo correctamente como negativos.
+FP (Falsos Positivos) = 11 Casos que eran realmente negativos, pero el modelo los predijo incorrectamente como positivos (falsa alarma).
+FN (Falsos Negativos) = 7 Casos que eran realmente positivos, pero el modelo los predijo incorrectamente como negativos (se le escapó un positivo).
+TP (Verdaderos Positivos) = 141 Casos que eran realmente positivos (clase "1") y el modelo los predijo correctamente como positivos.
+
+
+Accuracy: 
+a+d / a+b+c+d
+TP + TN / TP + TN + FP + FN
+141+184/141+184+11+7 -> 325/343  ≈  0.95
+*Precision buena para un modelo un poco mejor que la de arbol de decision
+
+Epsilon:
+b+c / a+b+c+d
+FP + FN / TP + TN + FP + FN
+11+7/141+184+11+7 -> 18 ≈ 0.05
+*El algoritmo comete el error en aproximadamente 0.05% de los casos con el Dataset
+
+Resumen:
+Con este dataset podemos ver que son precisos ambos algoritmo, por un lado un poco más de precision Tiene
+Random forest que Decision tree por 0.03%.
